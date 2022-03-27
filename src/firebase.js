@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC9UdUQ9xZWsDzn957YqkZB32Oz_2km--k",
@@ -21,12 +27,23 @@ export const signInWithGoogle = () => {
       const name = result.user.displayName;
       const email = result.user.email;
       const profilePic = result.user.photoURL;
-
       localStorage.setItem("name", name);
       localStorage.setItem("email", email);
       localStorage.setItem("profilePic", profilePic);
+      useNavigate("/");
     })
     .catch((error) => {
       console.log(error);
+    });
+};
+
+export const Logout = () => {
+  signOut(auth)
+    .then(function () {
+      localStorage.clear();
+    })
+
+    .catch(function (error) {
+      // Error occurred.
     });
 };
